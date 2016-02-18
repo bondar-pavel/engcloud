@@ -6,7 +6,7 @@ PUBLIC_NET=${3:-public-138-net}
 TENANT_NAME=$USERNAME
 
 if [[ "$OS_USERNAME" != "admin" ]]; then
-  echo "Tenant creation must be done as OpenStack admin."
+  echo "Project creation must be done as OpenStack admin."
   exit 1
 fi
 
