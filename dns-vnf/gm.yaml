@@ -101,22 +101,5 @@ resources:
             $v4_addr: { get_attr: [lan1_port, fixed_ips, 0, ip_address] }
             $v4_gw: { get_attr: [lan1_subnet, gateway_ip] }
 outputs:
-  floatin_ip:
+  gm_floating_ip:
     value: { get_attr: [floating_ip, floating_ip_address] }
-  user_data:
-    value:
-        str_replace:
-          template: |
-            #infoblox-config
-
-            temp_license: $temp_license
-            remote_console_enabled: true
-            default_admin_password: infoblox
-            lan1:
-              v4_addr: $v4_addr
-              v4_netmask: 255.255.255.0
-              v4_gateway: $v4_gateway
-          params:
-            $temp_license: { get_param: temp_license }
-            $v4_addr: { get_attr: [lan1_port, fixed_ips, 0, ip_address] }
-            $v4_gateway: { get_attr: [lan1_subnet, gateway_ip] }
