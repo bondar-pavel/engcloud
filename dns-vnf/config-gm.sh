@@ -38,11 +38,8 @@ echo $(date): Done
 
 LAN1_IP=$(curl -sk -u admin:infoblox -X GET "https://$FIP/wapi/v2.3/member?host_name=infoblox.localdomain&_return_fields=vip_setting" | grep address | cut -d: -f 2 | tr -d '", ')
 FIP_ID=$(neutron floatingip-list -c id -c floating_ip_address -f value | grep " $FIP\$" | cut -f 1 -d ' ')
-echo "Floating IP ID is $FIP_ID"
 FIP_NET_ID=$(neutron floatingip-show -c floating_network_id -f value $FIP_ID)
-echo "FIP NET ID $FIP_NET_ID"
 FIP_NET=$(neutron net-show -c name -f value $FIP_NET_ID)
-echo "FIP NET $FIP_NET"
 
 cat > gm-$FIP-env.yaml <<EOF
 # Heat environment for launching autoscale against GM $FIP
@@ -63,7 +60,7 @@ parameter_defaults:
 EOF
 
 echo "Enabling DNS..."
-GM_REF=$(curl -sk -u admin:infoblox https://172.22.138.92/wapi/v2.3/member:dns?host_name=infoblox.localdomain | grep _ref | cut -d: -f2-3 | tr -d '," ')
+GM_REF=$(curl -sk -u admin:infoblox https://$FIP/wapi/v2.3/member:dns?host_name=infoblox.localdomain | grep _ref | cut -d: -f2-3 | tr -d '," ')
 echo $(curl -sk -u admin:infoblox -X PUT -H "Content-Type: application/json" -d '{"enable_dns": true}' https://$FIP/wapi/v2.3/$GM_REF)
 
 echo "Adding a default nsgroup..."
