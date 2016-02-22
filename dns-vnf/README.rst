@@ -6,6 +6,7 @@ Usage
 -----
 
 ::
+
   $ heat stack-create -f gm.yaml -P"external_network=<your-ext-net>" gm
   $ heat stack-show gm
   $ ./config-gm.sh <gm-floating-ip>
