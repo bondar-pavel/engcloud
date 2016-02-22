@@ -42,6 +42,7 @@ resources:
         type: autoscale-member.yaml
         properties:
           gm_lan1_ip: {get_param: gm_lan1_ip}
+          gm_cert: {get_param: gm_cert}
           external_network: {get_param: external_network}
           parent_stack_id: {get_param: "OS::stack_id"}
   scaleup_policy:

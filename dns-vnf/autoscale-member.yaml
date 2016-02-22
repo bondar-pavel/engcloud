@@ -21,6 +21,9 @@ parameters:
   gm_lan1_ip:
     type: string
     description: the LAN1 IP of the GM, to be used by members for joining the grid
+  gm_cert:
+    type: string
+    description: the GM certificate contents
   parent_stack_id:
     type: string
     description: the stack ID of the calling stack
@@ -57,7 +60,7 @@ resources:
       dns: { enable: True }
       temp_licenses: ["vnios", "dns", "enterprise", "rpz"]
       gm_ip: { get_param: gm_lan1_ip }
-      gm_certificate: { get_file: gm-cert.pem }
+      gm_certificate: { get_param: gm_cert }
       remote_console_enabled: true
       admin_password: infoblox
 
