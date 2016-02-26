@@ -84,7 +84,6 @@ resources:
             ssh_pwauth: true
             password: infoblox
             chpasswd: { expire: False }
-            manage_etc_hosts: hostname
 
             apt_sources:
               - source: deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/liberty main
@@ -112,6 +111,9 @@ resources:
               - echo infoblox > /tmp/pw
               - echo infoblox >> /tmp/pw
               - adduser --gecos $username --quiet $username < /tmp/pw
+              - usermod -G sudo $username
+              - echo >> /etc/hosts
+              - echo $ipaddr control >> /etc/hosts
               - cp /home/ubuntu/$username-openrc.sh /home/$username
               - echo source /home/$username/$username-openrc.sh > /home/$username/.bash_aliases
               - cp -r /home/ubuntu/.ssh /home/$username
@@ -121,6 +123,7 @@ resources:
             $username: {get_param: username}
             $project_name: {get_param: project_name}
             $os_auth_url: {get_param: os_auth_url}
+            $ipaddr: { get_attr: [dev_port, fixed_ips, 0, ip_address] }
 outputs:
   floating_ip:
     description: The publically accessible floating IP of the GM.
