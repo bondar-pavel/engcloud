@@ -82,4 +82,6 @@ resources:
       config_drive: true
       user_data_format: RAW
       user_data: { get_attr: [grid_member, user_data] }
-      metadata: {"metering.stack": {get_param: parent_stack_id}, 'nios': 'true'}
+      # By default, SNMP polling is done on the first floating IP found for a given instance
+      # To override that, you can specify an IP in the infoblox-snmp-ip metadata item.
+      metadata: {"metering.stack": {get_param: parent_stack_id}, 'infoblox': 'true'}
